@@ -45,6 +45,7 @@ app.post('/email', async (req, res) => {
       bcc,
       subject,
       text,
+      html: '<p>Hello, this is the HTML body of the email.</p>',
     };
 
     // Send email
