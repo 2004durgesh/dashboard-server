@@ -26,7 +26,7 @@ app.get("/api/get", (req, res) => {
 
 app.post('/email', async (req, res) => {
   try {
-    const { to, cc, bcc, subject, text } = req.body;
+    const { to, cc, bcc, subject, html } = req.body;
 
     // Create a transporter object
     const transporter = nodemailer.createTransport({
@@ -44,8 +44,7 @@ app.post('/email', async (req, res) => {
       cc,
       bcc,
       subject,
-      text,
-      html: '<p>Hello, this is the HTML body of the email.</p>',
+      html,
     };
 
     // Send email
