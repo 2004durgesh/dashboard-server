@@ -3,6 +3,8 @@ const db = require("./config/db");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const app = express();
 const PORT = 8000;
@@ -24,7 +26,7 @@ app.get("/api/get", (req, res) => {
   });
 });
 
-app.post('/email', async (req, res) => {
+app.post('/email', upload.single('attachment'), async (req, res) => {
   try {
     const { to, cc, bcc, subject, html } = req.body;
 
@@ -45,6 +47,12 @@ app.post('/email', async (req, res) => {
       bcc,
       subject,
       html,
+      attachments: [
+        {
+          filename: req.file.originalname,
+          path: req.file.path // This will be the path where multer saved the file
+        }
+      ]
     };
 
     // Send email
