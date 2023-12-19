@@ -10,6 +10,11 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 
+
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 app.get("/api/get", (req, res) => {
   db.query("SELECT * FROM jewelry", (err, result) => {
     if (err) {
