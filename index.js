@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
+const fs = require('fs');
 
 const app = express();
 const PORT = 8000;
@@ -29,7 +30,6 @@ app.get("/api/get", (req, res) => {
 app.post('/email', upload.single('attachment'), async (req, res) => {
   try {
     const { to, cc, bcc, subject, html } = req.body;
-
     // Create a transporter object
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -67,6 +67,12 @@ app.post('/email', upload.single('attachment'), async (req, res) => {
     // Send an error response to the client
     res.status(500).json({ error: 'Internal Server Error' });
   }
+  fs.unlink(req.file.path, (err) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+  })
 });
 
 
