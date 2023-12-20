@@ -4,7 +4,7 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ dest: '/tmp/uploads/' });
 const fs = require('fs');
 
 const app = express();
@@ -68,7 +68,7 @@ app.post('/email', upload.single('attachment'), async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
   try {
-    fs.unlinkSync(req.file.path);
+    fs.unlinkSync(path.join('/tmp', req.file.path));
     console.log('File removed');
   } catch (err) {
     console.error('Error removing file:', err);
