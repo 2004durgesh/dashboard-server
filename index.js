@@ -67,13 +67,13 @@ app.post('/email', upload.single('attachment'), async (req, res) => {
     // Send an error response to the client
     res.status(500).json({ error: 'Internal Server Error' });
   }
-  fs.unlink(req.file.path, (err) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-  })
-});
+  try {
+    fs.unlinkSync(req.file.path);
+    console.log('File removed');
+  } catch (err) {
+    console.error('Error removing file:', err);
+  }
+})
 
 
 app.post("/api/create", (req, res) => {
@@ -95,4 +95,4 @@ app.post("/api/create", (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://127.0.0.1:${PORT}`);
-});
+})
