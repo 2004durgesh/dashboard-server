@@ -9,7 +9,9 @@ const fs = require('fs');
 
 const app = express();
 const PORT = 8000;
-app.use(cors());
+app.use(cors({
+  origin: ['*']
+}));
 app.use(express.json());
 app.use(bodyParser.json());
 
@@ -47,12 +49,12 @@ app.post('/email', upload.single('attachment'), async (req, res) => {
       bcc,
       subject,
       html,
-      attachments: [
+      attachments: req.file ? [
         {
           filename: req.file.originalname,
           path: req.file.path // This will be the path where multer saved the file
         }
-      ]
+      ] : []
     };
 
     // Send email
