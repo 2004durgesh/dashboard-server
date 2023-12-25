@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({ dest: '/tmp/uploads/' });
 const fs = require('fs');
+const connectDB  = require("./db/index.js");
 
 const app = express();
 const PORT = 8000;
@@ -14,6 +15,8 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(bodyParser.json());
+
+connectDB(); 
 
 
 app.get("/", (req, res) => {
@@ -95,6 +98,8 @@ app.post("/api/create", (req, res) => {
   );
 });
 
+
+app.use('/api', require('./routes/user.routes.js'));
 app.listen(PORT, () => {
   console.log(`Server is running on http://127.0.0.1:${PORT}`);
 })
