@@ -100,6 +100,8 @@ app.post("/api/create", (req, res) => {
 
 
 app.use('/api', require('./routes/user.routes.js'));
+app.use('/api', require('./routes/menuHeading.routes.js'));
+app.use('/api', require('./routes/menuItem.routes.js'));
 app.listen(PORT, () => {
   console.log(`Server is running on http://127.0.0.1:${PORT}`);
 })
